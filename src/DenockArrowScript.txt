@@ -60,12 +60,19 @@ begin GameMode
       
     endif
     
-    ; Run script on every frame
-    set fQuestDelayTime to 0.01
+    ; Set default denock key if one is somehow not set or out of range
+    if ( DenockArrowKey < 0 || DenockArrowKey > 28)
+      
+      set DenockArrowKey to 8
+      
+    endif
     
     ; Add event handlers
     SetEventHandler "OnBowAttack" DenockArrowOn ref::playerRef
     SetEventHandler "OnRelease" DenockArrowOff ref::playerRef
+    
+    ; Run script on every frame
+    set fQuestDelayTime to 0.01
     
     ; Bail out now, as there is nothing we can do until the next frame
     return
