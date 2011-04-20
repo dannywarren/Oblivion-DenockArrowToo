@@ -1,0 +1,18 @@
+scriptName DenockArrowOn
+
+;
+; DenockArrowToo/DenockArrowOn
+; This is the event handler function that enables denocking
+;
+
+
+; Locals
+ref actor
+
+
+; Function
+begin Function { actor }
+  
+  set DenockArrowState to 1
+  
+end

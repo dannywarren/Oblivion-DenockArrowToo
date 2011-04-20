@@ -1,0 +1,18 @@
+scriptName DenockArrowOff
+
+;
+; DenockArrowToo/DenockArrowOff
+; This is the event handler function that disables denocking
+;
+
+
+; Locals
+ref actor
+
+
+; Function
+begin Function { actor }
+  
+  set DenockArrowState to 0
+  
+end

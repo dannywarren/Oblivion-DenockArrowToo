@@ -1,0 +1,116 @@
+scriptName DenockArrowScript
+
+;
+; DenockArrowToo/DenockArrowScript
+; This is the main script that handles denocking the arrows
+;
+
+
+; Globals
+; This script uses two global variables, one for tracking the state of the
+; bow with event handlers, and one for defining which control key is used to
+; denock the arrow.
+; 
+; DenockArrowState
+;   -1: Initial state, our script hasn't interacted with anything yet
+;    0: Bow is not out or arrow is not readied, denocking disabled
+;    1: Bow is out, arrow is readied, denocking is possible
+;    2: Currently denocking an arrow
+;
+; DenockArrowKey
+;   For a list of control key values, see:
+;   http://cs.elderscrolls.com/constwiki/index.php/IsControlPressed#Control_IDs
+
+
+; Locals
+float fQuestDelayTime
+
+
+; Menu
+begin MenuMode
+  
+  ; Make sure to enable the attack again if we are in menu mode.  Once the
+  ; user leaves menu mode and returns to game mode it will be disabled again
+  ; if applicable
+  if ( DenockArrowState == 2 )
+    
+    EnableControl 4
+    
+  endif
+  
+end
+
+
+; Game
+begin GameMode
+  
+  ; Initialize denock event handlers when game engine reloads
+  if ( getGameRestarted )
+    
+    ; Verify OBSE
+    if ( GetOBSEVersion < 20 )
+      
+      ; Force the denock state to uninitialized default, just in case they were
+      ; in the middle of a denock, saved, quit, and then uninstalled obse
+      set DenockArrowState to -1
+      
+      ; Inform the user and bail out before we do any damage
+      MessageBox "DenockArrowToo requires Oblivion Script Extender v0020 or higher."
+      return
+      
+    endif
+    
+    ; Run script on every frame
+    set fQuestDelayTime to 0.01
+    
+    ; Add event handlers
+    SetEventHandler "OnBowAttack" DenockArrowOn ref::playerRef
+    SetEventHandler "OnRelease" DenockArrowOff ref::playerRef
+    
+    ; Bail out now, as there is nothing we can do until the next frame
+    return
+    
+  endif
+  
+  ; Only run denock code if the state is set, hopefully this lets us bail
+  ; out of the frame quickly when denock is not applicable
+  if ( DenockArrowState )
+    
+    ; The bow has been readied and arrow denocking is allowed
+    if ( DenockArrowState == 1 ) 
+      
+      ; If ready weapon control is pressed, denock the arrow
+      if ( isControlPressed DenockArrowKey )
+        
+        set DenockArrowState to 2
+        playerRef.playGroup unequip 1
+        DisableControl 4
+        
+      endif
+    
+    ; Arrow is in the process of being denocked
+    elseif ( DenockArrowState == 2 )
+      
+      ; If the attack control is still being pressed, continue to ignore
+      ; the attack, so that we dont immediately fire a stray arrow.  We
+      ; will not consider an arrow fully denocked until they let off the
+      ; attack control
+      if ( isControlPressed 4 )
+        
+        DisableControl 4
+        
+      ; If they have let off the attack control, it is now safe to let them
+      ; fire again and conclude the denock
+      else
+        
+        set DenockArrowState to 0
+        playerRef.playGroup idle 1
+        EnableControl 4
+        
+      endif
+      
+    endif
+    
+  endif
+  
+end
