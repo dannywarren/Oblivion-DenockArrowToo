@@ -2,7 +2,7 @@ DenockArrowToo
 
 Denock a readied arrow by pressing the ready/sheath weapon key.
 
-version:	0.01
+version:	1.00
 author:		Danny Warren
 email:		danny@dannywarren.com
 
@@ -25,7 +25,7 @@ this, and you already did the hard work of figuring out how to cancel an arrow.
 The major differences between this mod and "Denock Arrow" are:
 
 * Uses the new OnBowAttack and OnBowRelease event handlers in OBSE, instead of
-  tracking the arrow and bow state by looking at mouse clicks and key presses
+  tracking the arrow and bow state by looking at mouse clicks or key presses
 
 * Fixes the "denock on walk backwards" bug some people (including me) were
   having with "Denock Arrow"
@@ -59,13 +59,13 @@ key or mouse button to use when denocking an arrow.
 
 By default, it uses whatever you have the "ready/sheath weapon" key set to.
 
-This value is global and should persist across different save files, so you
-should only have to set it once if you do not like the default.
+This value is global and will persist in your save files, so you should only
+have to set it once if you do not like the default.
 
 If you wish to change which control is responsible for denocking an arrow, you
 can do so by setting the DenockArrowKey variable in the console.
 
-A list of available control codes are here:
+A list of available control key codes are here:
 http://cs.elderscrolls.com/constwiki/index.php/IsControlPressed#Control_IDs
 
 For example, if you wanted to set denock to the "grab" key, open the console
@@ -81,6 +81,19 @@ and type:
 To see what the denock key is currently set to, open the console and type:
 
   show DenockArrowKey
+
+A bit of warning!  You are indeed free to use any control key you want, but
+be careful about using ones that still serve another purpose while an arrow
+is readied.  The grab key will still grab an item if you are pointing at it,
+though probably not long enough for you to even notice you grabbed it.
+
+However, imagine what kind of trouble you could get in if you set it to one of
+the walk keys, or even worse - the attack key itself.
+
+I chose "ready/sheath weapon" as the default key for a reason, as it does
+absolutely nothing while an arrow is nocked (well, that and it feels right to
+me to "sheath" an arrow, and then possibly tap that key a second time to sheath
+my bow as well).
 
 
 --
@@ -106,22 +119,18 @@ stuck, you can reset the state by opening the console and typing:
 
   set DenockArrowState to -1
 
+If the attack control somehow gets stuck in a disabled state, you can force the
+denocking routines to run and clean themselves up again by opening the console
+and typing:
 
---
-
-BUGS/TODO:
-
-* if you have denock set to the cast key, and somehow manage to denock and cast
-  at the same time, the attack control will be stuck disabled
-
-* add a special state that completely resets denock if something goes really wrong?
+  set DenockArrowState to 2
 
 
 --
 
 CHANGELOG:
 
-0.01  2011.04.19
+1.00  2011.04.20
   
-  * initial beta
+  * initial release
 
