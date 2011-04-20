@@ -13,6 +13,13 @@ ref actor
 ; Function
 begin Function { actor }
   
+  ; If we are in the middle of denocking, don't let the state change or else
+  ; the attack control may get stuck
+  if ( DenockArrowState == 2 )
+    return
+  endif
+  
+  ; Allow denocking
   set DenockArrowState to 1
   
 end
