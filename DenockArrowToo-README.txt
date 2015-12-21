@@ -6,6 +6,7 @@ version:	1.00
 author:		Danny Warren
 email:		danny@dannywarren.com
 github:		https://github.com/dannywarren/Oblivion-DenockArrowToo
+nexus:		http://www.nexusmods.com/oblivion/mods/38110/?
 
 
 --
