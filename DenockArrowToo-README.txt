@@ -2,11 +2,11 @@ DenockArrowToo
 
 Denock a readied arrow by pressing the ready/sheath weapon key.
 
-version:	1.00
-author:		Danny Warren
-email:		danny@dannywarren.com
-github:		https://github.com/dannywarren/Oblivion-DenockArrowToo
-nexus:		http://www.nexusmods.com/oblivion/mods/38110/?
+VERSION:	1.00
+AUTHOR:		Danny Warren
+EMAIL:		danny@dannywarren.com
+GITHUB:		https://github.com/dannywarren/Oblivion-DenockArrowToo
+NEXUS:		http://www.nexusmods.com/oblivion/mods/38110/?
 
 
 --
